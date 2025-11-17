@@ -2,7 +2,6 @@
 """
 Poisson distribution class
 """
-import math
 
 
 class Poisson:
@@ -30,6 +29,28 @@ class Poisson:
                 raise ValueError("data must contain multiple values")
             self.lambtha = float(sum(data) / len(data))
 
+    def factorial(self, n):
+        """
+        Calculate factorial of n
+        """
+        if n == 0 or n == 1:
+            return 1
+        result = 1
+        for i in range(2, n + 1):
+            result *= i
+        return result
+
+    def exp(self, x):
+        """
+        Calculate e^x using Taylor series
+        """
+        result = 1.0
+        term = 1.0
+        for i in range(1, 100):
+            term *= x / i
+            result += term
+        return result
+
     def pmf(self, k):
         """
         Calculate the value of the PMF for a given number of
@@ -45,5 +66,5 @@ class Poisson:
 
         if k < 0:
             return 0
-        res = (self.lambtha ** k * math.exp(-self.lambtha)) / math.factorial(k)
+        res = (self.lambtha ** k * self.exp(-self.lambtha)) / self.factorial(k)
         return res
