@@ -58,6 +58,27 @@ class Normal:
         x = self.mean + z * self.stddev
         return x
 
+    def pdf(self, x):
+        """
+        Calculates the value of the PDF for a given x-value
+
+        Args:
+            x: The x-value
+
+        Returns:
+            The PDF probability density value for x
+        """
+        euler = 2.7182818285
+        pi = 3.141592653589793
+        sqrt_2pi = 2.5066282746310002
+
+        # PDF formula: (1 / (σ * √(2π))) * e^(-(x-μ)²/(2σ²))
+        z = (x - self.mean) / self.stddev
+        exponent = -0.5 * z * z
+        pdf_value = (1.0 / (self.stddev * sqrt_2pi)) * (euler ** exponent)
+
+        return pdf_value
+
     def erf(self, x):
         """
         Approximates the error function using Taylor series
