@@ -1,76 +1,56 @@
 #!/usr/bin/env python3
 """
-Poisson distribution class
+Poisson distribution class for probability calculations
 """
 
 
 class Poisson:
     """
-    Represents a Poisson distribution
+    Class representing a Poisson probability distribution
     """
 
     def __init__(self, data=None, lambtha=1.):
         """
-        Initialize Poisson distribution
+        Constructor for Poisson distribution
 
         Args:
-            data: list of data to estimate the distribution
-            lambtha: expected number of occurrences in a given time frame
+            data: List of data values to estimate the distribution (optional)
+            lambtha: Mean number of occurrences in the time interval
         """
         if data is None:
-            # Use the given lambtha
-            if lambtha <= 0:
+            if lambtha < 1:
                 raise ValueError("lambtha must be a positive value")
             self.lambtha = float(lambtha)
         else:
-            if not isinstance(data, list):
+            if type(data) is not list:
                 raise TypeError("data must be a list")
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.lambtha = float(sum(data) / len(data))
 
-    def factorial(self, n):
-        """
-        Calculate factorial of n
-        """
-        if n == 0 or n == 1:
-            return 1
-        result = 1
-        for i in range(2, n + 1):
-            result *= i
-        return result
-
-    def exp(self, x):
-        """
-        Calculate e^x using Taylor series
-        """
-        # For negative x, use e^(-x) = 1/e^x for better precision
-        if x < 0:
-            return 1.0 / self.exp(-x)
-    
-        result = 1.0
-        term = 1.0
-        for i in range(1, 300):
-            term *= x / i
-            result += term
-            if abs(term) < 1e-20:
-                break
-        return result
-
     def pmf(self, k):
         """
-        Calculate the value of the PMF for a given number of
-        "successes"
+        Computes the PMF value for a given number of successes
 
         Args:
-            k: number of "successes"
+            k: The number of successes (converted to int if not integer)
 
         Returns:
-            PMF value for k
+            The PMF probability value, or 0 for negative k values
         """
-        k = int(k)
+        if type(k) is not int:
+            k = int(k)
 
         if k < 0:
             return 0
-        res = (self.lambtha ** k * self.exp(-self.lambtha)) / self.factorial(k)
-        return res
+
+        euler = 2.7182818285
+        lambda_val = self.lambtha
+
+        fact = 1
+        for j in range(1, k + 1):
+            fact *= j
+
+        probability = ((lambda_val ** k) * (euler ** -lambda_val)) / fact
+
+        return probability
