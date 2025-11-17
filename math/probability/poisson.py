@@ -44,12 +44,16 @@ class Poisson:
         """
         Calculate e^x using Taylor series
         """
+        # For negative x, use e^(-x) = 1/e^x for better precision
+        if x < 0:
+            return 1.0 / self.exp(-x)
+    
         result = 1.0
         term = 1.0
-        for i in range(1, 200):
+        for i in range(1, 300):
             term *= x / i
             result += term
-            if abs(term) < 1e-15:
+            if abs(term) < 1e-20:
                 break
         return result
 
