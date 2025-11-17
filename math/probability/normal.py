@@ -84,18 +84,24 @@ class Normal:
         Approximates the error function using Taylor series
         """
         sqrt_pi = 1.7724538509055159
+
+        sign = 1
+        if x < 0:
+            sign = -1
+            x = -x
+
         result = 0.0
         term = x
         factorial = 1
 
-        for n in range(100):
+        for n in range(200):
             result += term / (factorial * (2 * n + 1))
-            if abs(term / (factorial * (2 * n + 1))) < 1e-15:
+            if abs(term / (factorial * (2 * n + 1))) < 1e-20:
                 break
             term *= -x * x
             factorial *= (n + 1)
 
-        return 2.0 / sqrt_pi * result
+        return sign * 2.0 / sqrt_pi * result
 
     def cdf(self, x):
         """
@@ -107,10 +113,14 @@ class Normal:
         Returns:
             The CDF value for x
         """
-        z = (x - self.mean) / self.stddev
+        pi = 3.1415926536
 
-        sqrt2 = 1.4142135623730951
-        erf_value = self.erf(z / sqrt2)
-        cdf_value = 0.5 * (1 + erf_value)
+        z = self.z_score(x) / (2 ** 0.5)
+
+        erf = (2 / (pi ** 0.5)) * (
+            z - (z ** 3) / 3 + (z ** 5) / 10 - (z ** 7) / 42 + (z ** 9) / 216
+        )
+
+        cdf_value = 0.5 * (1 + erf)
 
         return cdf_value
