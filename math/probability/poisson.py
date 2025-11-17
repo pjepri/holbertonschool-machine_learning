@@ -46,9 +46,11 @@ class Poisson:
         """
         result = 1.0
         term = 1.0
-        for i in range(1, 100):
+        for i in range(1, 200):
             term *= x / i
             result += term
+            if abs(term) < 1e-15:
+                break
         return result
 
     def pmf(self, k):
