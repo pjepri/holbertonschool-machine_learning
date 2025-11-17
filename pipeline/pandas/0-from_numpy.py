@@ -3,7 +3,6 @@
 Function to create a pandas DataFrame from a numpy array
 """
 
-import numpy as np
 import pandas as pd
 
 
