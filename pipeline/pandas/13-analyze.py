@@ -3,8 +3,6 @@
 Function to compute descriptive statistics for DataFrame columns
 """
 
-import pandas as pd
-
 
 def analyze(df):
     """

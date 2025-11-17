@@ -3,8 +3,6 @@
 Function to slice DataFrame by selecting specific columns and every 60th row
 """
 
-import pandas as pd
-
 
 def slice(df):
     """

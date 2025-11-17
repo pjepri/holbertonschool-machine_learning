@@ -3,8 +3,6 @@
 Function to remove entries where Close has NaN values
 """
 
-import pandas as pd
-
 
 def prune(df):
     """

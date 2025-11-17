@@ -3,8 +3,6 @@
 Function to fill missing values in DataFrame according to specific rules
 """
 
-import pandas as pd
-
 
 def fill(df):
     """

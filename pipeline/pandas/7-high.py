@@ -3,8 +3,6 @@
 Function to sort DataFrame by High price in descending order
 """
 
-import pandas as pd
-
 
 def high(df):
     """

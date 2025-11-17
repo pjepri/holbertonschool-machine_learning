@@ -3,8 +3,6 @@
 Function to set Timestamp column as the index of the DataFrame
 """
 
-import pandas as pd
-
 
 def index(df):
     """

@@ -3,8 +3,6 @@
 Function to sort DataFrame in reverse chronological order and transpose it
 """
 
-import pandas as pd
-
 
 def flip_switch(df):
     """
