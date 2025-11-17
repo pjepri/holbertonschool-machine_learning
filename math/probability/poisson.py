@@ -54,3 +54,25 @@ class Poisson:
         probability = ((lambda_val ** k) * (euler ** -lambda_val)) / fact
 
         return probability
+
+    def cdf(self, k):
+        """
+        Computes the CDF value for a given number of successes
+
+        Args:
+            k: The number of successes (converted to int if not integer)
+
+        Returns:
+            The CDF probability value, or 0 for negative k values
+        """
+        if type(k) is not int:
+            k = int(k)
+
+        if k < 0:
+            return 0
+
+        cumulative = 0
+        for i in range(k + 1):
+            cumulative += self.pmf(i)
+
+        return cumulative
