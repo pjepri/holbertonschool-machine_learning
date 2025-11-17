@@ -87,6 +87,10 @@ def all_in_one():
     plt.xlabel('Grades', fontsize='x-small')
     plt.ylabel('Number of Students', fontsize='x-small')
     plt.title('Project A', fontsize='x-small')
+    plt.xlim(0, 100)
+    plt.xticks(np.arange(0, 101, 10))
+    plt.ylim(0, 30)
+    plt.yticks(np.arange(0, 31, 10))
 
     plt.suptitle('All in One', fontsize=16)
 
