@@ -2,6 +2,7 @@
 """
 Poisson distribution class
 """
+import math
 
 
 class Poisson:
@@ -28,3 +29,21 @@ class Poisson:
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
             self.lambtha = float(sum(data) / len(data))
+
+    def pmf(self, k):
+        """
+        Calculate the value of the PMF for a given number of
+        "successes"
+
+        Args:
+            k: number of "successes"
+
+        Returns:
+            PMF value for k
+        """
+        k = int(k)
+
+        if k < 0:
+            return 0
+        res = (self.lambtha ** k * math.exp(-self.lambtha)) / math.factorial(k)
+        return res
