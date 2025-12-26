@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""EM algorithm for GMM"""
+"""EM algorithm with GMM"""
 import numpy as np
 initialize = __import__('4-initialize').initialize
 expectation = __import__('6-expectation').expectation
@@ -8,14 +8,14 @@ maximization = __import__('7-maximization').maximization
 
 def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
     """
-    Performs the expectation maximization for a GMM
+    Performs the expectation maximization with a GMM
 
     Args:
         X: numpy.ndarray of shape (n, d) containing the data set
         k: positive integer containing the number of clusters
         iterations: positive integer containing max iterations
-        tol: non-negative float for tolerance of log likelihood
-        verbose: boolean for printing information
+        tol: non-negative float indicating tolerance of log likelihood
+        verbose: boolean indicating whether to print in progress
 
     Returns:
         pi: numpy.ndarray of shape (k,) with priors
@@ -65,5 +65,8 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
     if verbose and i % 10 != 0:
         print("Log Likelihood after {} iterations: {}".format(
             i, round(ll, 5)))
+
+    # Final E-step to ensure g and ll match final pi, m, S
+    g, ll = expectation(X, pi, m, S)
 
     return pi, m, S, g, ll

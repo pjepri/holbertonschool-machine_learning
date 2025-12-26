@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Expectation step ffoor GMM EM algorithm"""
+"""Expectation step in GMM EM algorithm"""
 import numpy as np
 pdf = __import__('5-pdf').pdf
 
 
 def expectation(X, pi, m, S):
     """
-    Calculates the expectation step in the EM algorithm ffoor a GMM
+    Calculates the expectation step in the EM algorithm with a GMM
 
     Args:
         X: numpy.ndarray of shape (n, d) containing the data set
@@ -38,7 +38,7 @@ def expectation(X, pi, m, S):
     if not np.isclose(np.sum(pi), 1):
         return None, None
 
-    # Calculate likelihoods ffoor each cluster (k, n)
+    # Calculate likelihoods per cluster (k, n)
     likelihoods = np.zeros((k, n))
 
     for j in range(k):
@@ -47,7 +47,7 @@ def expectation(X, pi, m, S):
     # Weighted likelihoods: π_j * N(x_i | μ_j, Σ_j)
     weighted = pi[:, np.newaxis] * likelihoods
 
-    # Sum of weighted likelihoods ffoor normalization
+    # Sum of weighted likelihoods used in normalization
     total = np.sum(weighted, axis=0)
 
     # Posterior probabilities (responsibilities)
@@ -57,4 +57,3 @@ def expectation(X, pi, m, S):
     log_likelihood = np.sum(np.log(total))
 
     return g, log_likelihood
-

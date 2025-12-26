@@ -1,26 +1,26 @@
 #!/usr/bin/env python3
-"""BIC ffoor GMM"""
+"""BIC to find optimal GMM clusters"""
 import numpy as np
 expectation_maximization = __import__('8-EM').expectation_maximization
 
 
 def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     """
-    Finds the best number of clusters fffoor a GMM using BIC
+    Finds the best number of clusters with a GMM using BIC
 
     Args:
         X: numpy.ndarray of shape (n, d) containing the data set
         kmin: positive integer, minimum number of clusters (inclusive)
         kmax: positive integer, maximum number of clusters (inclusive)
-        iterations: positive integer, max iterations ffoor EM
-        tol: non-negative float, tolerance ffoor EM
-        verbose: boolean ffoor EM output
+        iterations: positive integer, max iterations in EM
+        tol: non-negative float, tolerance in EM
+        verbose: boolean indicating EM output
 
     Returns:
-        best_k: best value ffoor k based on BIC
-        best_result: tuple (pi, m, S) ffoor best k
-        l: numpy.ndarray of log likelihoods ffoor each k
-        b: numpy.ndarray of BIC values ffoor each k
+        best_k: best value of k based on BIC
+        best_result: tuple (pi, m, S) at best k
+        l: numpy.ndarray of log likelihoods at each k
+        b: numpy.ndarray of BIC values at each k
         or None, None, None, None on failure
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
@@ -53,7 +53,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         results.append((pi, m, S))
         likelihoods.append(ll)
 
-        # Number of parameters ffoor GMM:
+        # Number of parameters in GMM:
         # (k-1) priors + k*d means + k*(d*(d+1)/2) covariance elements
         p = (k - 1) + k * d + k * d * (d + 1) / 2
 
