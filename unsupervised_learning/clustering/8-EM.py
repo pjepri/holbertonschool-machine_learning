@@ -66,7 +66,4 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         print("Log Likelihood after {} iterations: {}".format(
             i, round(ll, 5)))
 
-    # Final E-step to ensure g and ll match final pi, m, S
-    g, ll = expectation(X, pi, m, S)
-
     return pi, m, S, g, ll
