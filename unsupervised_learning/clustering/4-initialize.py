@@ -6,14 +6,14 @@ kmeans = __import__('1-kmeans').kmeans
 
 def initialize(X, k):
     """
-    Initializes variables for a Gaussian Mixture Model
+    Initializes variables needed by a Gaussian Mixture Model
 
     Args:
         X: numpy.ndarray of shape (n, d) containing the data set
         k: positive integer containing the number of clusters
 
     Returns:
-        pi: numpy.ndarray of shape (k,) with priors for each cluster
+        pi: numpy.ndarray of shape (k,) with priors per cluster
         m: numpy.ndarray of shape (k, d) with centroid means
         S: numpy.ndarray of shape (k, d, d) with covariance matrices
         or None, None, None on failure
@@ -25,7 +25,7 @@ def initialize(X, k):
 
     n, d = X.shape
 
-    # Initialize priors evenly (1/k for each cluster)
+    # Initialize priors evenly (1/k per cluster)
     pi = np.full((k,), 1/k)
 
     # Initialize means using K-means
