@@ -19,7 +19,6 @@ def kmeans(X, k, iterations=1000):
         clss: numpy.ndarray of shape (n,) with cluster indices
         or None, None on failure
     """
-    # Validate inputs
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None
     if not isinstance(k, int) or k <= 0:
@@ -29,44 +28,33 @@ def kmeans(X, k, iterations=1000):
 
     n, d = X.shape
 
-    # Initialize centroids using uniform distribution
     min_vals = np.min(X, axis=0)
     max_vals = np.max(X, axis=0)
     C = np.random.uniform(low=min_vals, high=max_vals, size=(k, d))
 
-    # K-means main loop (1st loop)
     for _ in range(iterations):
-        # Copy centroids to check for convergence
         C_prev = np.copy(C)
 
-        # Compute distances from each point to each centroid
-        # X[:, np.newaxis] has shape (n, 1, d), C has shape (k, d)
-        # Broadcasting gives (n, k, d), norm reduces to (n, k)
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-
-        # Assign each point to nearest centroid
         clss = np.argmin(distances, axis=1)
 
-        # Update centroids (2nd loop)
-        for j in range(k):
-            # Get points assigned to cluster j
-            mask = clss == j
-            if np.sum(mask) > 0:
-                C[j] = np.mean(X[mask], axis=0)
+        counts = np.bincount(clss, minlength=k)
+        cluster_sums = np.zeros((k, d))
+        np.add.at(cluster_sums, clss, X)
 
-        # Handle empty clusters - reinitialize
-        empty_clusters = np.where(np.bincount(clss, minlength=k) == 0)[0]
-        if len(empty_clusters) > 0:
-            C[empty_clusters] = np.random.uniform(
+        mask = counts > 0
+        C[mask] = cluster_sums[mask] / counts[mask, np.newaxis]
+
+        empty = np.where(counts == 0)[0]
+        if len(empty) > 0:
+            C[empty] = np.random.uniform(
                 low=min_vals, high=max_vals,
-                size=(len(empty_clusters), d)
+                size=(len(empty), d)
             )
 
-        # Check for convergence (no change in centroids)
         if np.array_equal(C, C_prev):
             break
 
-    # Final assignment after convergence
     distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
     clss = np.argmin(distances, axis=1)
 
