@@ -14,8 +14,8 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         X: numpy.ndarray of shape (n, d) containing the data set
         k: positive integer containing the number of clusters
         iterations: positive integer containing max iterations
-        tol: non-negative float indicating tolerance of log likelihood
-        verbose: boolean indicating whether to print in progress
+        tol: non-negative float containing tolerance of log likelihood
+        verbose: boolean that determines if you should print info
 
     Returns:
         pi: numpy.ndarray of shape (k,) with priors
@@ -40,8 +40,8 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
     if pi is None:
         return None, None, None, None, None
 
-    prev_ll = 0
     g, ll = None, None
+    prev_ll = 0
 
     for i in range(iterations):
         g, ll = expectation(X, pi, m, S)
@@ -61,7 +61,6 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         if pi is None:
             return None, None, None, None, None
 
-    # Print final iteration if not already printed
     if verbose and i % 10 != 0:
         print("Log Likelihood after {} iterations: {}".format(
             i, round(ll, 5)))
