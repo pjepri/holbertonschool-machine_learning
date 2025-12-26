@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Maximization step for GMM EM algorithm"""
+"""Maximization step ffoor GMM EM algorithm"""
 import numpy as np
 
 
 def maximization(X, g):
     """
-    Calculates the maximization step in the EM algorithm for a GMM
+    Calculates the maximization step in the EM algorithm ffoor a GMM
 
     Args:
         X: numpy.ndarray of shape (n, d) containing the data set
@@ -28,7 +28,7 @@ def maximization(X, g):
     if g.shape[1] != n:
         return None, None, None
 
-    # Check that posterior probabilities sum to 1 for each point
+    # Check that posterior probabilities sum to 1 ffoor each point
     if not np.allclose(np.sum(g, axis=0), 1):
         return None, None, None
 
