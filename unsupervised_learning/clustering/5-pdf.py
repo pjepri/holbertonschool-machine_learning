@@ -37,10 +37,10 @@ def pdf(X, m, S):
     # Normalization constant: (2π)^(d/2) * |Σ|^(1/2)
     norm = np.sqrt(((2 * np.pi) ** d) * det)
 
-    # Difference from mean for all data points: (x - μ)
+    # Difference from mean across all data points: (x - μ)
     diff = X - m
 
-    # Quadratic form: (x - μ)^T * Σ^(-1) * (x - μ) for each point
+    # Quadratic computation: (x - μ)^T * Σ^(-1) * (x - μ) per point
     exponent = np.sum((diff @ S_inv) * diff, axis=1)
 
     # PDF values
