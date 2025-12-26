@@ -21,8 +21,6 @@ def pca(X, var=0.95):
            variance
     """
     # Perform SVD on the centered data
-    # X = U @ S @ Vt
-    # The rows of Vt (columns of V) are the principal components
     U, S, Vt = np.linalg.svd(X, full_matrices=False)
 
     # Variance explained by each component is proportional to S^2
@@ -30,14 +28,16 @@ def pca(X, var=0.95):
     total_variance = np.sum(variance)
 
     # Calculate cumulative variance ratio
-    cumulative_variance_ratio = np.cumsum(variance) / total_variance
+    cumulative_ratio = np.cumsum(variance) / total_variance
 
-    # Find number of components needed to maintain var fraction
-    # argmax returns the first index where condition is True
-    nd = np.argmax(cumulative_variance_ratio >= var) + 1
+    # Find the number of components to maintain at least var variance
+    # We need the smallest nd such that cumulative_ratio >= var
+    nd = np.searchsorted(cumulative_ratio, var) + 1
 
-    # W is the first nd principal components (columns of V = rows of Vt)
-    # Shape: (d, nd)
+    # Ensure we don't exceed the number of components
+    nd = min(nd, len(S))
+
+    # W is the first nd principal components
     W = Vt[:nd].T
 
     return W
