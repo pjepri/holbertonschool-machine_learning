@@ -6,20 +6,28 @@ import requests
 
 
 if __name__ == '__main__':
-    # Get the latest launch
-    launch_url = "https://api.spacexdata.com/v5/launches/latest"
-    response = requests.get(launch_url)
+    # Get upcoming launches
+    launches_url = "https://api.spacexdata.com/v4/launches/upcoming"
+    response = requests.get(launches_url)
 
     if response.status_code != 200:
         exit(1)
 
-    launch = response.json()
+    launches = response.json()
+
+    # Sort by date_unix to find the first upcoming launch
+    launches_sorted = sorted(launches, key=lambda x: x.get('date_unix', 0))
+
+    if not launches_sorted:
+        exit(1)
+
+    first_launch = launches_sorted[0]
 
     # Get launch details
-    launch_name = launch.get('name')
-    launch_date = launch.get('date_local')
-    rocket_id = launch.get('rocket')
-    launchpad_id = launch.get('launchpad')
+    launch_name = first_launch.get('name')
+    launch_date = first_launch.get('date_local')
+    rocket_id = first_launch.get('rocket')
+    launchpad_id = first_launch.get('launchpad')
 
     # Fetch rocket name
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(rocket_id)
