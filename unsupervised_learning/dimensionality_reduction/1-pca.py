@@ -31,4 +31,3 @@ def pca(X, ndim):
     T = np.matmul(X_centered, W)
 
     return T
-
